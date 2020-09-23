@@ -1,11 +1,11 @@
 spring:
-  redis:
-    database: 9
-    host: 192.168.10.113
-    port: 6379
-    password: 123456
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://192.168.10.122:3306/oauth2_demo
-    username: root
-    password: 123456
+  cloud:
+    config:
+      label: master
+      profile: dev
+      name: oauth2-server
+      discovery:
+        service-id: config-server
+        enabled: true
+      username: admin
+      password: admin
