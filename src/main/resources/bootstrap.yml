@@ -25,3 +25,5 @@ management:
     web:
       exposure:
         include: health, info, bus-refresh
+server:
+  port: 8080
