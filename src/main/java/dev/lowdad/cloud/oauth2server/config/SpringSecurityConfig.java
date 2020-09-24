@@ -41,6 +41,10 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
+    /**
+     *  // @EnableResourceServer 需要这个覆盖鉴权
+     * @return UserDetailsService
+     */
     @Override
     @Bean
     public UserDetailsService userDetailsService(){

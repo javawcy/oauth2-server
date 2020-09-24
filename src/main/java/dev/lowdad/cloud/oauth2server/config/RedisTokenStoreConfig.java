@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
-import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 
@@ -29,15 +28,5 @@ public class RedisTokenStoreConfig {
     @Bean
     public TokenStore redisTokenStore() {
         return new RedisTokenStore(redisConnectionFactory);
-    }
-
-    @Bean
-    public DefaultTokenServices defaultTokenServices() {
-        DefaultTokenServices tokenServices = new DefaultTokenServices();
-        tokenServices.setTokenStore(redisTokenStore());
-        tokenServices.setReuseRefreshToken(true);
-        tokenServices.setAccessTokenValiditySeconds(60 * 60 * 2);
-        tokenServices.setRefreshTokenValiditySeconds(60 * 60 * 24 * 7);
-        return tokenServices;
     }
 }
