@@ -46,9 +46,9 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
 
-        endpoints.authenticationManager(authenticationManager)
-                .userDetailsService(userService)
-                .tokenServices(defaultTokenServices);
+        endpoints.authenticationManager(this.authenticationManager)
+                .userDetailsService(this.userService)
+                .tokenServices(this.defaultTokenServices);
 //                .accessTokenConverter(jwtAccessTokenConverter);
 //                .tokenEnhancer(tokenEnhancerChain);
     }
@@ -60,6 +60,6 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
     @Bean
     public ClientDetailsService clientsDetails() {
-        return new JdbcClientDetailsService(dataSource);
+        return new JdbcClientDetailsService(this.dataSource);
     }
 }
