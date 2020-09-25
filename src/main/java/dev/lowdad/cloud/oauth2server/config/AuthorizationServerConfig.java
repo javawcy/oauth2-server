@@ -13,6 +13,7 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService;
 import org.springframework.security.oauth2.provider.token.TokenStore;
+import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 
 import javax.sql.DataSource;
 
@@ -33,20 +34,23 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     private final UserService userService;
     private final TokenStore jwtTokenStore;
     private final DataSource dataSource;
+    private final JwtAccessTokenConverter jwtTokenEnhancer;
 
     @Autowired
-    public AuthorizationServerConfig(AuthenticationManager authenticationManager, UserService userService, TokenStore jwtTokenStore, DataSource dataSource) {
+    public AuthorizationServerConfig(AuthenticationManager authenticationManager, UserService userService, TokenStore jwtTokenStore, DataSource dataSource, JwtAccessTokenConverter jwtTokenEnhancer) {
         this.authenticationManager = authenticationManager;
         this.userService = userService;
         this.jwtTokenStore = jwtTokenStore;
         this.dataSource = dataSource;
+        this.jwtTokenEnhancer = jwtTokenEnhancer;
     }
 
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
         endpoints.authenticationManager(this.authenticationManager)
                 .userDetailsService(this.userService)
-                .tokenStore(this.jwtTokenStore);
+                .tokenStore(this.jwtTokenStore)
+                .accessTokenConverter(this.jwtTokenEnhancer);
     }
 
     @Override

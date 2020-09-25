@@ -27,18 +27,13 @@ public class JwtTokenStoreConfig {
 
     @Bean
     public TokenStore tokenStore() {
-        return new JwtTokenStore(jwtAccessTokenConverter());
+        return new JwtTokenStore(jwtTokenEnhancer());
     }
 
     @Bean
-    public JwtAccessTokenConverter jwtAccessTokenConverter() {
-        JwtAccessTokenConverter accessTokenConverter = new JwtAccessTokenConverter();
-        accessTokenConverter.setSigningKey(jwtSignConfiguration.getSignKey());
-        return accessTokenConverter;
-    }
-
-    @Bean
-    public JwtTokenEnhancer jwtTokenEnhancer() {
-        return new JwtTokenEnhancer();
+    public JwtAccessTokenConverter jwtTokenEnhancer() {
+        JwtAccessTokenConverter jwtTokenEnhancer = new JwtAccessTokenConverter();
+        jwtTokenEnhancer.setSigningKey(jwtSignConfiguration.getSignKey());
+        return jwtTokenEnhancer;
     }
 }
