@@ -2,7 +2,6 @@ package dev.lowdad.cloud.oauth2server.config;
 
 import dev.lowdad.cloud.oauth2server.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -27,7 +26,6 @@ import javax.sql.DataSource;
  */
 @Configuration
 @EnableAuthorizationServer
-@RefreshScope
 public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 
     private final AuthenticationManager authenticationManager;
