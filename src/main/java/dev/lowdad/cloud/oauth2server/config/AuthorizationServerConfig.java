@@ -29,14 +29,14 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
     private final AuthenticationManager authenticationManager;
     private final UserService userService;
-    private final TokenStore redisTokenStore;
+    private final TokenStore jwtTokenStore;
     private final DataSource dataSource;
 
     @Autowired
-    public AuthorizationServerConfig(AuthenticationManager authenticationManager, UserService userService, TokenStore redisTokenStore, DataSource dataSource) {
+    public AuthorizationServerConfig(AuthenticationManager authenticationManager, UserService userService, TokenStore jwtTokenStore, DataSource dataSource) {
         this.authenticationManager = authenticationManager;
         this.userService = userService;
-        this.redisTokenStore = redisTokenStore;
+        this.jwtTokenStore = jwtTokenStore;
         this.dataSource = dataSource;
     }
 
@@ -44,7 +44,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
         endpoints.authenticationManager(this.authenticationManager)
                 .userDetailsService(this.userService)
-                .tokenStore(this.redisTokenStore);
+                .tokenStore(this.jwtTokenStore);
     }
 
     @Override

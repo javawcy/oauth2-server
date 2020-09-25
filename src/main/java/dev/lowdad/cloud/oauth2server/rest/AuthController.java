@@ -14,11 +14,11 @@ import java.security.Principal;
  * @author Chongyu
  * @since 2020/9/24
  */
-@RestController
-@RequestMapping("/oauth2")
+//@RestController
+//@RequestMapping("/oauth2")
 public class AuthController {
 
-    @GetMapping("current")
+//    @GetMapping("current")
     public Principal auth(Principal principal) {
         return principal;
     }
