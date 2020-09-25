@@ -1,5 +1,6 @@
 package dev.lowdad.cloud.oauth2server.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.oauth2.provider.token.TokenStore;
@@ -17,6 +18,13 @@ import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 @Configuration
 public class JwtTokenStoreConfig {
 
+    private final JwtSignConfiguration jwtSignConfiguration;
+
+    @Autowired
+    public JwtTokenStoreConfig(JwtSignConfiguration jwtSignConfiguration) {
+        this.jwtSignConfiguration = jwtSignConfiguration;
+    }
+
     @Bean
     public TokenStore tokenStore() {
         return new JwtTokenStore(jwtAccessTokenConverter());
@@ -25,7 +33,7 @@ public class JwtTokenStoreConfig {
     @Bean
     public JwtAccessTokenConverter jwtAccessTokenConverter() {
         JwtAccessTokenConverter accessTokenConverter = new JwtAccessTokenConverter();
-        accessTokenConverter.setSigningKey("test_key");//配置JWT使用的秘钥
+        accessTokenConverter.setSigningKey(jwtSignConfiguration.getSignKey());
         return accessTokenConverter;
     }
 
