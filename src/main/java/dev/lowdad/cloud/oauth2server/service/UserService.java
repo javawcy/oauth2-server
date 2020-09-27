@@ -1,15 +1,14 @@
 package dev.lowdad.cloud.oauth2server.service;
 
 import dev.lowdad.cloud.oauth2server.domain.User;
+import dev.lowdad.cloud.oauth2server.domain.UserInfoVO;
 import dev.lowdad.cloud.oauth2server.repository.UserRepository;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AccountExpiredException;
-import org.springframework.security.authentication.CredentialsExpiredException;
-import org.springframework.security.authentication.DisabledException;
-import org.springframework.security.authentication.LockedException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 /**
@@ -24,29 +23,49 @@ import org.springframework.stereotype.Service;
 public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
-    @Override
+
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
         final User user = userRepository.findByUsername(s);
+        available(user);
+        UserInfoVO infoVO = new UserInfoVO();
+        BeanUtils.copyProperties(user,infoVO);
+        return infoVO;
+    }
 
+    public UserInfoVO loadByMobileAndSmsCode(String mobile, String code) throws UsernameNotFoundException {
+        final User user = userRepository.findByMobile(mobile);
+        available(user);
+
+        if (!user.getLastSmsCode().equals(code)) {
+            throw new UsernameNotFoundException("短信验证码错误");
+        }
+        UserInfoVO infoVO = new UserInfoVO();
+        BeanUtils.copyProperties(user,infoVO);
+        return infoVO;
+    }
+
+    public UserInfoVO loadUserByMobileAndPassword(String mobile, String password) {
+        final User user = userRepository.findByMobile(mobile);
+        available(user);
+        if (!passwordEncoder.matches(password,user.getPassword())) {
+            throw new UsernameNotFoundException("密码错误");
+        }
+        UserInfoVO infoVO = new UserInfoVO();
+        BeanUtils.copyProperties(user,infoVO);
+        return infoVO;
+    }
+
+    private void available(User user) {
         if (user == null) {
             throw new UsernameNotFoundException("用户不存在");
         }
-        if (!user.isEnabled()) {
-            throw new DisabledException("不可用");
-        } else if (!user.isAccountNonLocked()) {
-            throw new LockedException("已冻结");
-        } else if (!user.isAccountNonExpired()) {
-            throw new AccountExpiredException("账户已过期");
-        } else if (!user.isCredentialsNonExpired()) {
-            throw new CredentialsExpiredException("权限过期");
-        }
-        return user;
     }
-
 }
