@@ -1,7 +1,7 @@
 package dev.lowdad.cloud.oauth2server.service;
 
+import dev.lowdad.cloud.common.model.vo.UserInfoVO;
 import dev.lowdad.cloud.oauth2server.domain.User;
-import dev.lowdad.cloud.oauth2server.domain.UserInfoVO;
 import dev.lowdad.cloud.oauth2server.repository.UserRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;

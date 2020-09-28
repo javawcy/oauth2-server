@@ -1,6 +1,6 @@
 package dev.lowdad.cloud.oauth2server.granter;
 
-import dev.lowdad.cloud.oauth2server.domain.UserInfoVO;
+import dev.lowdad.cloud.common.model.vo.UserInfoVO;
 import org.springframework.security.oauth2.common.exceptions.InvalidGrantException;
 import org.springframework.security.oauth2.provider.*;
 import org.springframework.security.oauth2.provider.token.AbstractTokenGranter;

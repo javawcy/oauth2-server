@@ -1,6 +1,7 @@
 package dev.lowdad.cloud.oauth2server.config;
 
-import dev.lowdad.cloud.oauth2server.domain.UserInfoVO;
+import dev.lowdad.cloud.common.enums.TokenStoreType;
+import dev.lowdad.cloud.common.model.vo.UserInfoVO;
 import dev.lowdad.cloud.oauth2server.filter.CustomClientCredentialsTokenEndpointFilter;
 import dev.lowdad.cloud.oauth2server.granter.CustomMobilePassTokenGranter;
 import dev.lowdad.cloud.oauth2server.granter.CustomRefreshTokenGranter;
@@ -50,11 +51,6 @@ import java.util.*;
 @Configuration
 @EnableAuthorizationServer
 public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
-
-    //定义token存储方式
-    private enum TokenStoreType {
-        REDIS, JWT
-    }
 
     private final TokenStoreType tokenStoreType = TokenStoreType.JWT;
     private final UserService userService;
