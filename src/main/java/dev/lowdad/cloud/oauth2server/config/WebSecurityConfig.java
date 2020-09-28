@@ -59,6 +59,22 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     }
 
+    /**
+     * http安全配置
+     *
+     * @param http http安全对象
+     * @throws Exception http安全异常信息
+     */
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .authorizeRequests()
+                .anyRequest().authenticated()
+                .and().httpBasic()
+                .and().csrf().disable();
+    }
+
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().antMatchers(
