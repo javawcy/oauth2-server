@@ -48,8 +48,6 @@ public class ResourceServerConfigurer extends ResourceServerConfigurerAdapter {
                 .authorizeRequests()
                 .anyRequest().authenticated()
                 .and().httpBasic()
-                .and().cors()
                 .and().csrf().disable();
-
     }
 }
